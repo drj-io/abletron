@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 const zlib = require('zlib');
 const fs = require('fs');
 const versions = require('./versions.js')
@@ -5,8 +7,9 @@ const colors = require('colors')
 
 async function read(filename){
   return new Promise((resolve, reject) => {
-    fs.readFile("111.als", (err, buffer) => {
-      if(err) throw "Error reading file. Does it exist?"
+    fs.readFile(filename, (err, buffer) => {
+
+      if(err) return reject("Error reading file. Does it exist?")
       resolve(buffer)
     })
   })
@@ -15,7 +18,8 @@ async function read(filename){
 async function unzip(buffer){
   return new Promise((resolve, reject) => {
     zlib.unzip(buffer, (err, buffer) => {
-      if(err) throw "Error unzipping file. Is this really an ableton project?"
+
+      if(err) reject("Error unzipping file. Is this really an ableton project?")
       return resolve(buffer);
     });
   });
@@ -24,7 +28,7 @@ async function unzip(buffer){
 async function save(filename, text){
   return new Promise((resolve, reject)=>{
     fs.writeFile(filename, text, function (err) {
-      if (err) return reject()
+      if (err) return reject("Couldn't save...")
       console.log(`Saved ${filename}`);
       return resolve()
     });
@@ -32,8 +36,10 @@ async function save(filename, text){
 }
 
 (async function () {
+  let filename = process.argv[2]
+  let version = process.argv[3]
 
-  if (!process.argv[2] || !process.argv[3] || !Object.keys(versions).includes(process.argv[3])){
+  if (!filename || !version || !Object.keys(versions).includes(version)){
     console.log(`This script will parse an Ableton file and change it's version delegation`.green)
     console.log(`Warning - This may not always work. Use at your own risk`.yellow)
     console.log()
@@ -43,24 +49,29 @@ async function save(filename, text){
     console.log(`Example: node app.js "Sick Tune-3.als" 11.0`.cyan)
     console.log()
   } else {
-    let buffer = await read(process.argv[2])
-    let xmlbuff = await unzip(buffer);
-    let xml = xmlbuff.toString();
+
+    let buffer,xmlbuff,xml
+    try{
+      buffer = await read(filename)
+      xmlbuff = await unzip(buffer);
+      xml = xmlbuff.toString();
+    } catch(e){
+      console.log(e)
+      process.exit(1)
+    }
+
     let xmlArr = xml.split('\n')
     if (xmlArr[1].startsWith('<Ableton ')){
-      console.log(`Looks good, converting... ${process.argv[3]} -> `)
-      xmlArr[1] = versions[process.argv[3]]
+      console.log(`Looks good, converting... ${version} -> `)
+      xmlArr[1] = versions[version]
 
       let newFileText = xmlArr.join('\n')
-      let newFilenameArr = process.argv[2].split('.')
-      newFilenameArr[newFilenameArr.length -2] +=  "-" + process.argv[3].replace(".","-")
-
+      let newFilenameArr = filename.split('.')
+      newFilenameArr[newFilenameArr.length -2] +=  "-" + version.replace(".","-")
 
       let newFilename = newFilenameArr.join(".")
-      //console.log(newFilename)
 
-
-      console.log(`Looks good, converting... ${process.argv[2]} -> ${newFilename}`)
+      console.log(`Looks good, converting... ${filename} -> ${newFilename}`)
 
       await save(newFilename, newFileText)
 
