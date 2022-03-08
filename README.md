@@ -18,3 +18,5 @@ Available Versions:
 
 
 Example: node app.js "Sick Tune-3.als" 11.0
+
+This will create a new .als file with an updated Ableton XML schema reflecting the specified version. 
