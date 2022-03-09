@@ -64,18 +64,12 @@ async function save(filename, text){
     if (xmlArr[1].startsWith('<Ableton ')){
       console.log(`Looks good, converting... ${version} -> `)
       xmlArr[1] = versions[version]
-
       let newFileText = xmlArr.join('\n')
       let newFilenameArr = filename.split('.')
       newFilenameArr[newFilenameArr.length -2] +=  "-" + version.replace(".","-")
-
       let newFilename = newFilenameArr.join(".")
-
       console.log(`Looks good, converting... ${filename} -> ${newFilename}`)
-
       await save(newFilename, newFileText)
-
-
     } else {
       console.log(`We looked at the file, and something doesn't look quite right.`)
     }
