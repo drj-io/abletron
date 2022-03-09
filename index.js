@@ -37,13 +37,14 @@ async function save(filename, text){
   let filename = process.argv[2]
   let version = process.argv[3]
   if (!filename || !version || !Object.keys(versions).includes(version)){
+    console.log()
     console.log(`This script will parse an Ableton file and change it's version delegation`.green)
     console.log(`Warning - This may not always work. Use at your own risk`.yellow)
     console.log()
     console.log(`Usage: node app.js [filename] [version]`)
     console.log()
     console.log(`Available Versions:\n${Object.keys(versions).join('\n')}`.grey)
-    console.log(`Example: node app.js "Sick Tune-3.als" 11.0`.cyan)
+    console.log(`Example: abletron "Sick Tune-3.als" 11.0`.cyan)
     console.log()
   } else {
     let buffer,xmlbuff,xml
