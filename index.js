@@ -8,7 +8,6 @@ const colors = require('colors')
 async function read(filename){
   return new Promise((resolve, reject) => {
     fs.readFile(filename, (err, buffer) => {
-
       if(err) return reject("Error reading file. Does it exist?")
       resolve(buffer)
     })
@@ -18,7 +17,6 @@ async function read(filename){
 async function unzip(buffer){
   return new Promise((resolve, reject) => {
     zlib.unzip(buffer, (err, buffer) => {
-
       if(err) reject("Error unzipping file. Is this really an ableton project?")
       return resolve(buffer);
     });
@@ -34,11 +32,9 @@ async function save(filename, text){
     });
   })
 }
-
 (async function () {
   let filename = process.argv[2]
   let version = process.argv[3]
-
   if (!filename || !version || !Object.keys(versions).includes(version)){
     console.log(`This script will parse an Ableton file and change it's version delegation`.green)
     console.log(`Warning - This may not always work. Use at your own risk`.yellow)
@@ -49,7 +45,6 @@ async function save(filename, text){
     console.log(`Example: node app.js "Sick Tune-3.als" 11.0`.cyan)
     console.log()
   } else {
-
     let buffer,xmlbuff,xml
     try{
       buffer = await read(filename)
@@ -59,7 +54,6 @@ async function save(filename, text){
       console.log(e)
       process.exit(1)
     }
-
     let xmlArr = xml.split('\n')
     if (xmlArr[1].startsWith('<Ableton ')){
       console.log(`Looks good, converting... ${version} -> `)
