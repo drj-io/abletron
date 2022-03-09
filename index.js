@@ -32,6 +32,7 @@ async function save(filename, text){
     });
   })
 }
+
 (async function () {
   let filename = process.argv[2]
   let version = process.argv[3]
