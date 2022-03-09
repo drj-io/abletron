@@ -2,13 +2,17 @@
 
 ## Requirements
 
-This has only been tested on MacOS. To use this, make sure you have NPM and NodeJS installed. https://nodejs.org 
+This has only been tested on MacOS. To use this, make sure you have NPM and NodeJS installed. https://nodejs.org.
 
 ## Installation
 
+```
 $ npm install abletron -g
+```
 
-## usage
+You will likely need to use the `sudo` command to install this globally. You can also call the script locally.
+
+## Usage
 This script will parse an Ableton file and change it's version delegation
 Warning - This may not always work. Use at your own risk
 
