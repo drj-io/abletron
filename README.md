@@ -1,5 +1,9 @@
 # abletron
 
+## Requirements
+
+This has only been tested on MacOS. To use this, make sure you have NPM and NodeJS installed. https://nodejs.org 
+
 ## Installation
 
 $ npm install abletron -g
