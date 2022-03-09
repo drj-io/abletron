@@ -25,7 +25,10 @@ Available Versions:
 - 10.1
 
 
-Example: node app.js "Sick Tune-3.als" 11.0
+Example:
+```
+abletron "Sick Tune-3.als" 11.0
+```
 
 ## Detailed description
 
